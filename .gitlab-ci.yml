@@ -1,0 +1,24 @@
+stages:
+  - test
+  - build
+
+test:
+  stage: test
+  image: betaflight/betaflight-build
+  tags:
+    - docker
+  script:
+      - make EXTRA_FLAGS=-Werror test-representative
+
+build:
+  stage: build
+  image: betaflight/betaflight-build
+  tags:
+    - docker
+  script:
+      - make TARGET=STM32F405
+  artifacts:
+    paths:
+      - obj/*.hex
+    expire_in: 1 day
+    when: always
