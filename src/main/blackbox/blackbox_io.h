@@ -61,3 +61,5 @@ unsigned int blackboxGetLogNumber(void);
 
 void blackboxReplenishHeaderBudget(void);
 blackboxBufferReserveStatus_e blackboxDeviceReserveBufferSpace(int32_t bytes);
+
+void blackboxResetState(void);
