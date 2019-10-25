@@ -840,6 +840,11 @@ const clivalue_t valueTable[] = {
     { "ibatv_offset",               VAR_UINT16 | MASTER_VALUE, .config.minmaxUnsigned = { 0, 16000 }, PG_CURRENT_SENSOR_VIRTUAL_CONFIG, offsetof(currentSensorVirtualConfig_t, offset) },
 #endif
 
+#ifdef USE_BATTERY_CONTINUE
+    { "battery_continue",              VAR_UINT8  | MASTER_VALUE | MODE_LOOKUP, .config.lookup = { TABLE_OFF_ON }, PG_BATTERY_CONFIG, offsetof(batteryConfig_t, isBatteryContinueEnabled) },
+    { "battery_continue_period",       VAR_UINT8  | MASTER_VALUE, .config.minmaxUnsigned = { 1, 100 }, PG_BATTERY_CONFIG, offsetof(batteryConfig_t, batteryContinuePeriod) },
+#endif
+
 #ifdef USE_BEEPER
 // PG_BEEPER_DEV_CONFIG
     { "beeper_inversion",           VAR_UINT8  | HARDWARE_VALUE | MODE_LOOKUP, .config.lookup = { TABLE_OFF_ON }, PG_BEEPER_DEV_CONFIG, offsetof(beeperDevConfig_t, isInverted) },
@@ -1311,6 +1316,10 @@ const clivalue_t valueTable[] = {
 
 #ifdef USE_OSD_PROFILES
     { "osd_profile_name_pos",   VAR_UINT16  | MASTER_VALUE, .config.minmaxUnsigned = { 0, OSD_POSCFG_MAX }, PG_OSD_CONFIG, offsetof(osdConfig_t, item_pos[OSD_PROFILE_NAME]) },
+#endif
+
+#ifdef USE_BATTERY_CONTINUE
+    { "osd_battery_continue_pos",         VAR_UINT16  | MASTER_VALUE, .config.minmaxUnsigned = { 0, OSD_POSCFG_MAX }, PG_OSD_CONFIG, offsetof(osdConfig_t, item_pos[OSD_BATTERY_CONTINUE]) },
 #endif
 
     // OSD stats enabled flags are stored as bitmapped values inside a 32bit parameter
