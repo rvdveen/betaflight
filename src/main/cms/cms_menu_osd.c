@@ -155,6 +155,9 @@ const OSD_Entry menuOsdActiveElemsEntries[] =
     {"DISPLAY NAME",       OME_VISIBLE, NULL, &osdConfig_item_pos[OSD_DISPLAY_NAME], DYNAMIC},
     {"RC CHANNELS",        OME_VISIBLE, NULL, &osdConfig_item_pos[OSD_RC_CHANNELS], DYNAMIC},
     {"CAMERA FRAME",       OME_VISIBLE, NULL, &osdConfig_item_pos[OSD_CAMERA_FRAME], DYNAMIC},
+#ifdef USE_BATTERY_CONTINUE
+    {"BATTERY CONTINUE",   OME_VISIBLE, NULL, &osdConfig_item_pos[OSD_BATTERY_CONTINUE], DYNAMIC},
+#endif
     {"BACK",               OME_Back,    NULL, NULL, 0},
     {NULL,                 OME_END,     NULL, NULL, 0}
 };

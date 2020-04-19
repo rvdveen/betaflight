@@ -144,6 +144,7 @@ typedef enum {
     OSD_RC_CHANNELS,
     OSD_CAMERA_FRAME,
     OSD_EFFICIENCY,
+    OSD_BATTERY_CONTINUE,
     OSD_ITEM_COUNT // MUST BE LAST
 } osd_items_e;
 

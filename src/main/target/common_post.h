@@ -381,3 +381,7 @@ extern uint8_t __config_end;
 #if defined(USE_RX_SPI) || defined (USE_SERIALRX_SRXL2)
 #define USE_RX_BIND
 #endif
+
+#if defined(USE_BATTERY_CONTINUE) && !defined(USE_SDCARD)
+#undef USE_BATTERY_CONTINUE
+#endif

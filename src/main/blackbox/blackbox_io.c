@@ -723,4 +723,12 @@ blackboxBufferReserveStatus_e blackboxDeviceReserveBufferSpace(int32_t bytes)
         return BLACKBOX_RESERVE_PERMANENT_FAILURE;
     }
 }
+
+void blackboxResetState(void)
+{
+    #ifdef USE_SDCARD
+    blackboxSDCard.state = BLACKBOX_SDCARD_INITIAL;
+    #endif
+}
+
 #endif // BLACKBOX

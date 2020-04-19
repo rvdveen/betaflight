@@ -155,6 +155,7 @@ COMMON_SRC = \
             drivers/serial_escserial.c \
             drivers/vtx_common.c \
             drivers/vtx_table.c \
+            io/battery_continue.c \
             io/dashboard.c \
             io/displayport_frsky_osd.c \
             io/displayport_max7456.c \

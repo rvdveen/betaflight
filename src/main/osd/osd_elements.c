@@ -107,6 +107,11 @@
 #include "flight/pid.h"
 
 #include "io/beeper.h"
+
+#ifdef USE_BATTERY_CONTINUE
+#include "io/battery_continue.h"
+#endif
+
 #include "io/gps.h"
 #include "io/vtx.h"
 
@@ -199,6 +204,11 @@ static int osdDisplayWriteChar(osdElementParms_t *element, uint8_t x, uint8_t y,
 
     return osdDisplayWrite(element, x, y, attr, buf);
 }
+
+#ifdef USE_BATTERY_CONTINUE
+extern bool isBatteryContinueActive;
+extern timeUs_t batteryContinueEndTimeUs;
+#endif
 
 #if defined(USE_ESC_SENSOR) || defined(USE_DSHOT_TELEMETRY)
 typedef int (*getEscRpmOrFreqFnPtr)(int i);
@@ -1260,6 +1270,22 @@ static void osdElementVtxChannel(osdElementParms_t *element)
 }
 #endif // USE_VTX_COMMON
 
+#ifdef USE_BATTERY_CONTINUE
+static void osdElementBatteryContinue(osdElementParms_t *element)
+{
+    if (isBatteryContinueActive) {
+        timeUs_t currentTimeUs = micros();
+
+        int timeLeft = MIN((batteryContinueEndTimeUs - currentTimeUs) / 100000, UINT32_C(999));
+        int saved = MIN(batContinueReadMAh(), 99999);
+
+        tfp_sprintf(element->buff, "CONT. %5d%c %2d.%1d", saved, SYM_MAH, timeLeft / 10, timeLeft % 10);
+    } else {
+        element->drawElement = false;
+    }
+}
+#endif
+
 static void osdElementWarnings(osdElementParms_t *element)
 {
 #define OSD_WARNINGS_MAX_SIZE 12
@@ -1611,6 +1637,9 @@ static const uint8_t osdElementDisplayOrder[] = {
 #endif
     OSD_RC_CHANNELS,
     OSD_CAMERA_FRAME,
+#ifdef USE_BATTERY_CONTINUE
+    OSD_BATTERY_CONTINUE,
+#endif
 };
 
 // Define the mapping between the OSD element id and the function to draw it
@@ -1720,6 +1749,9 @@ const osdElementDrawFn osdElementDrawFunction[OSD_ITEM_COUNT] = {
     [OSD_RC_CHANNELS]             = osdElementRcChannels,
 #ifdef USE_GPS
     [OSD_EFFICIENCY]              = osdElementEfficiency,
+#endif
+#ifdef USE_BATTERY_CONTINUE
+    [OSD_BATTERY_CONTINUE]        = osdElementBatteryContinue,
 #endif
 };
 
