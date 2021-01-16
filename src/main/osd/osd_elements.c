@@ -1542,6 +1542,15 @@ static void osdElementWarnings(osdElementParms_t *element)
         return;
     }
 
+#ifdef USE_BATTERY_CONTINUE
+    // Show warning if battery is not fresh and battery continue is active
+    if (hasUsedMAh()) {
+        tfp_sprintf(element->buff, "BATTERY CONTINUE");
+        element->attr = DISPLAYPORT_ATTR_INFO;
+        return;
+    }
+#endif
+
     // Show warning if battery is not fresh
     if (osdWarnGetState(OSD_WARNING_BATTERY_NOT_FULL) && !(ARMING_FLAG(ARMED) || ARMING_FLAG(WAS_EVER_ARMED)) && (getBatteryState() == BATTERY_OK)
           && getBatteryAverageCellVoltage() < batteryConfig()->vbatfullcellvoltage) {
